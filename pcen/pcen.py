@@ -1,8 +1,9 @@
-from f2m import F2M
 import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+
+from .f2m import F2M
 
 
 def pcen(x, eps=1E-6, s=0.025, alpha=0.98, delta=2, r=0.5, training=False, last_state=None, first_state=True):
