@@ -5,9 +5,10 @@ spectrogram features.
 ## Overview
 
 Robustness to loudness differences in near- and far-field conditions is critical in high-quality speech recognition applications. 
-Obviously, spectrogram energies differ significantly between, say, shouting at arms-length and whispering from a distance. This 
-phenomenon can worsen model quality, since the model itself would need to be robust across a wide range of input. The log-compression step in the log-Mel transform partially compresses the dynamic range of audio; however, it ignores per-channel 
-energy differences and is static by definition.
+Obviously, spectrogram energies differ significantly between, say, shouting at arms-length and whispering from a distance. 
+This can worsen model quality, since the model itself would need to be robust across a wide range of input. The 
+log-compression step in the popular log-Mel transform partially addresses this issue by reducing the dynamic range of audio; 
+however, it ignores per-channel energy differences and is static by definition.
 
 [Per-channel energy normalization](https://arxiv.org/pdf/1607.05666.pdf) is one such solution to the aforementioned problems. 
 It provides a per-channel, trainable front-end in place of the log compression, greatly improving model robustness in keyword spotting systems -- all the while being resource-efficient and easy to implement.
