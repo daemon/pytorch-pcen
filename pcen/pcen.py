@@ -6,10 +6,10 @@ import torch.nn.functional as F
 from .f2m import F2M
 
 
-def pcen(x, eps=1E-6, s=0.025, alpha=0.98, delta=2, r=0.5, training=False, last_state=None, first_state=True):
+def pcen(x, eps=1E-6, s=0.025, alpha=0.98, delta=2, r=0.5, training=False, last_state=None, empty=True):
     frames = x.split(1, -2)
     m_frames = []
-    if first_state:
+    if empty:
         last_state = None
     for frame in frames:
         if last_state is None:
@@ -60,17 +60,17 @@ class StreamingPCENTransform(nn.Module):
         self.reset()
 
     def reset(self):
-        self.first_state = True
+        self.empty = True
 
     def forward(self, x):
         x = torch.stft(x, self.n_fft, **self.stft_kwargs).norm(dim=-1, p=2)
         x = self.f2m(x.permute(0, 2, 1))
         if self.use_cuda_kernel:
-            x, ls = pcen_cuda_kernel(x, self.eps, self.s, self.alpha, self.delta, self.r, self.trainable, self.last_state, self.first_state)
+            x, ls = pcen_cuda_kernel(x, self.eps, self.s, self.alpha, self.delta, self.r, self.trainable, self.last_state, self.empty)
         else:
-            x, ls = pcen(x, self.eps, self.s, self.alpha, self.delta, self.r, self.training and self.trainable, self.last_state, self.first_state)
+            x, ls = pcen(x, self.eps, self.s, self.alpha, self.delta, self.r, self.training and self.trainable, self.last_state, self.empty)
         self.last_state = ls.detach()
-        self.first_state = False
+        self.empty = False
         return x
 
 
