@@ -7,7 +7,7 @@ setuptools.setup(
     author="Ralph Tang",
     author_email="r33tang@uwaterloo.ca",
     description="Efficient implementation of per-channel energy normalization.",
-    install_requires=["numpy", "pytorch"],
+    install_requires=["numpy"],
     url="https://github.com/daemon/pytorch-pcen",
     packages=setuptools.find_packages(),
     classifiers=(
