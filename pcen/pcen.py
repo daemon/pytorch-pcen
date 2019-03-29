@@ -89,7 +89,7 @@ if __name__ == "__main__":
         y = transform(x)
         transform.reset()
     b = time.perf_counter()
-    print(f"{(b - a) / n * 1000:.2} ms per second of audio.")
+    print("{:.2} ms per second of audio.".format((b - a) / n * 1000))
 
     # Streaming in chunks of 1600
     x_chunks = x.split(1600, 1)
@@ -98,7 +98,7 @@ if __name__ == "__main__":
         y_chunks = list(map(transform, x_chunks))
         transform.reset()
     b = time.perf_counter()
-    print(f"{(b - a) / n * 1000:.2} ms per second of audio.")
+    print("{:.2} ms per second of audio.".format((b - a) / n * 1000))
 
     librosa.display.specshow(y[0].cpu().numpy().T)
     plt.title("Non-streaming")
